@@ -16,9 +16,6 @@ public class Forecastday {
     @SerializedName("day")
     @Expose
     private Day day;
-    @SerializedName("astro")
-    @Expose
-    private Astro astro;
     @SerializedName("hour")
     @Expose
     private List<Hour> hour;
@@ -45,14 +42,6 @@ public class Forecastday {
 
     public void setDay(Day day) {
         this.day = day;
-    }
-
-    public Astro getAstro() {
-        return astro;
-    }
-
-    public void setAstro(Astro astro) {
-        this.astro = astro;
     }
 
     public List<Hour> getHour() {

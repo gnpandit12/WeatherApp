@@ -6,23 +6,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class WeatherForecastResponse {
 
-    @SerializedName("location")
-    @Expose
-    private Location location;
     @SerializedName("current")
     @Expose
     private Current current;
     @SerializedName("forecast")
     @Expose
     private Forecast forecast;
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
 
     public Current getCurrent() {
         return current;
