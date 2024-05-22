@@ -3,9 +3,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="city_search">Enter city name</string>
-    <string name="current_temperature">37 C</string>
+    <string name="current_temperature">37</string>
     <string name="feels_like">Feels like </string>
     <string name="feels_like_temperature"> 44 c</string>
     <string name="current_weather_condition">Haze</string>
     <string name="time">6 pm</string>
+    <string name="hourly_weather_temperature">38 C</string>
 </resources>

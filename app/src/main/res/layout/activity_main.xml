@@ -11,13 +11,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#949494"
+        android:background="#236cb9"
         android:orientation="vertical">
 
         <EditText
             android:id="@+id/city_name_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="@string/city_search"
             android:textSize="16sp"
             android:imeOptions="actionDone"
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabTextColor="@color/white"
-            android:background="#949494"/>
+            android:background="#236cb9"/>
 
     </LinearLayout>
 
@@ -42,6 +42,6 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#d3d3d3"/>
+        android:background="#2584e2"/>
 
 </LinearLayout>

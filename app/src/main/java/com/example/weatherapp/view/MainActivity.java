@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         ViewPager2 viewPager2 = activityMainBinding.viewPager;
         viewPager2.setAdapter(new ViewPagerAdapter(this));
+        viewPager2.setUserInputEnabled(false);
 
         TabLayout tabLayout = activityMainBinding.tabLayout;
         new TabLayoutMediator(tabLayout, viewPager2, (tab, i) -> tab.setText(tabLabels[i])).attach();
