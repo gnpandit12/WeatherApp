@@ -1,5 +1,6 @@
 package com.example.weatherapp.view;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.inputmethod.EditorInfo;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager2.setUserInputEnabled(false);
 
         TabLayout tabLayout = activityMainBinding.tabLayout;
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FFFFFF"));
         new TabLayoutMediator(tabLayout, viewPager2, (tab, i) -> tab.setText(tabLabels[i])).attach();
 
         activityMainBinding.cityNameEditText.setOnEditorActionListener((textView, i, keyEvent) -> {

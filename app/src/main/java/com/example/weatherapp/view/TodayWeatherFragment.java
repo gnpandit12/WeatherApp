@@ -1,12 +1,10 @@
 package com.example.weatherapp.view;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,26 +12,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.example.weatherapp.R;
 import com.example.weatherapp.databinding.FragmentTodayWeatherBinding;
 import com.example.weatherapp.model.Constants;
 import com.example.weatherapp.model.adapter.WeatherRecyclerViewAdapter;
 import com.example.weatherapp.model.data.Hour;
-import com.example.weatherapp.model.data.WeatherForecastResponse;
-import com.example.weatherapp.viewModel.TodayWeatherViewModel;
+import com.example.weatherapp.viewModel.WeatherForecastViewModel;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * @Author Gaurav Naresh Pandit
  * @Since 18/05/24
  **/
-public class TodayWeatherFragment extends Fragment implements MainActivity.CityNameListener{
+public class TodayWeatherFragment extends Fragment implements MainActivity.CityNameListener {
 
     public static final String TAG = "TodayWeatherFragment";
     private FragmentTodayWeatherBinding fragmentTodayWeatherBinding;
-    private TodayWeatherViewModel todayWeatherViewModel;
+    private WeatherForecastViewModel weatherForecastViewModel;
     private WeatherRecyclerViewAdapter weatherRecyclerViewAdapter;
 
     @Override
@@ -42,12 +37,7 @@ public class TodayWeatherFragment extends Fragment implements MainActivity.CityN
 
         ((MainActivity) requireActivity()).setCityNameListener(this);
 
-//        fragmentTodayWeatherBinding.hourlyWeatherRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        fragmentTodayWeatherBinding.hourlyWeatherRecyclerView.hasFixedSize();
-
-        todayWeatherViewModel  = new ViewModelProvider(requireActivity()).get(TodayWeatherViewModel.class);
-
-        getWeatherInfo(Constants.DEFAULT_CITY);
+        weatherForecastViewModel = new ViewModelProvider(requireActivity()).get(WeatherForecastViewModel.class);
 
     }
 
@@ -59,12 +49,44 @@ public class TodayWeatherFragment extends Fragment implements MainActivity.CityN
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        fragmentTodayWeatherBinding.progressBar.setVisibility(View.VISIBLE);
+        getWeatherInfo(Constants.DEFAULT_CITY);
+    }
+
+    @Override
     public void onCityNameReceived(String cityName) {
         getWeatherInfo(cityName);
     }
 
     private void getWeatherInfo(String cityName) {
-        todayWeatherViewModel.getMoviesRepository(Constants.API_KEY, cityName, Constants.FORECAST_DAYS, Constants.AIR_QUALITY_INDEX, Constants.ALERTS)
+
+        weatherForecastViewModel.getIsLoading().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    fragmentTodayWeatherBinding.progressBar.setVisibility(View.VISIBLE);
+                    fragmentTodayWeatherBinding.feelsLikeText.setVisibility(View.INVISIBLE);
+                    fragmentTodayWeatherBinding.currentTempeartureTextView.setVisibility(View.INVISIBLE);
+                    fragmentTodayWeatherBinding.feelsLikeTextView.setVisibility(View.INVISIBLE);
+                    fragmentTodayWeatherBinding.currentWeatherTextView.setVisibility(View.INVISIBLE);
+                    fragmentTodayWeatherBinding.currentWeatherIcon.setVisibility(View.INVISIBLE);
+                    fragmentTodayWeatherBinding.hourlyWeatherRecyclerView.setVisibility(View.INVISIBLE);
+                } else {
+                    fragmentTodayWeatherBinding.progressBar.setVisibility(View.INVISIBLE);
+                    fragmentTodayWeatherBinding.feelsLikeText.setVisibility(View.VISIBLE);
+                    fragmentTodayWeatherBinding.currentTempeartureTextView.setVisibility(View.VISIBLE);
+                    fragmentTodayWeatherBinding.feelsLikeTextView.setVisibility(View.VISIBLE);
+                    fragmentTodayWeatherBinding.currentWeatherTextView.setVisibility(View.VISIBLE);
+                    fragmentTodayWeatherBinding.currentWeatherIcon.setVisibility(View.VISIBLE);
+                    fragmentTodayWeatherBinding.hourlyWeatherRecyclerView.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
+
+        weatherForecastViewModel.getWeatherForecastRepository(Constants.API_KEY, cityName, Constants.FORECAST_DAYS, Constants.AIR_QUALITY_INDEX, Constants.ALERTS)
                 .observe(requireActivity(), weatherForecastResponse -> {
                     if (weatherForecastResponse != null) {
                         fragmentTodayWeatherBinding.currentTempeartureTextView.setText(

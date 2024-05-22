@@ -14,16 +14,17 @@ import com.example.weatherapp.model.repository.WeatherRepository;
  * @Author Gaurav Naresh Pandit
  * @Since 18/05/24
  **/
-public class TodayWeatherViewModel extends AndroidViewModel {
+public class WeatherForecastViewModel extends AndroidViewModel {
 
     private WeatherRepository weatherRepository;
     private MutableLiveData<WeatherForecastResponse> weatherForecastResponse = new MutableLiveData<>();
-    public TodayWeatherViewModel(@NonNull Application application) {
+    private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+    public WeatherForecastViewModel(@NonNull Application application) {
         super(application);
         weatherRepository = new WeatherRepository();
     }
 
-    public MutableLiveData<WeatherForecastResponse> getMoviesRepository(
+    public MutableLiveData<WeatherForecastResponse> getWeatherForecastRepository(
             String apiKey,
             String location,
             String days,
@@ -53,6 +54,15 @@ public class TodayWeatherViewModel extends AndroidViewModel {
                 airQualityIndex,
                 alerts
         );
+    }
+
+
+    public MutableLiveData<Boolean> getIsLoading() {
+        isLoading = getIsLoadingResponse();
+        return isLoading;
+    }
+    private MutableLiveData<Boolean> getIsLoadingResponse() {
+        return weatherRepository.getIsLoading();
     }
 
 }

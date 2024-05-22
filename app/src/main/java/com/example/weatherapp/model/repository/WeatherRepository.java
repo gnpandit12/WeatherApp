@@ -18,6 +18,7 @@ import retrofit2.Response;
 public class WeatherRepository {
     private static ApiInterface apiInterface;
     private final MutableLiveData<WeatherForecastResponse> weatherForecastResponse = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private static WeatherRepository weatherRepository;
     public static WeatherRepository getInstance(){
         if (weatherRepository == null){
@@ -37,6 +38,7 @@ public class WeatherRepository {
             String airQualityIndex,
             String alerts
     ) {
+        isLoading.setValue(true);
         Call<WeatherForecastResponse> weatherForecastResponseCall = apiInterface.getWeatherForecast(
                 apiKey,
                 location,
@@ -49,6 +51,7 @@ public class WeatherRepository {
             @Override
             public void onResponse(Call<WeatherForecastResponse> call, Response<WeatherForecastResponse> response) {
                 weatherForecastResponse.setValue(response.body());
+                isLoading.setValue(false);
             }
 
             @Override
@@ -57,6 +60,10 @@ public class WeatherRepository {
             }
         });
         return weatherForecastResponse;
+    }
+
+    public MutableLiveData<Boolean> getIsLoading() {
+        return isLoading;
     }
 
 }

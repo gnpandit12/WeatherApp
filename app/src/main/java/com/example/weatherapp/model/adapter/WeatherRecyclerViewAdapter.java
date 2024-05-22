@@ -24,6 +24,7 @@ public class WeatherRecyclerViewAdapter extends RecyclerView.Adapter<WeatherRecy
 
     private Context mContext;
     private ArrayList<Hour> mHourlyWeatherArrayList;
+    private String hourlyTime;
     public WeatherRecyclerViewAdapter(Context context, ArrayList<Hour> hourlyWeatherArrayList) {
         this.mContext = context;
         this.mHourlyWeatherArrayList = hourlyWeatherArrayList;
@@ -48,7 +49,18 @@ public class WeatherRecyclerViewAdapter extends RecyclerView.Adapter<WeatherRecy
                hourlyWeather.getTempC().intValue() + " " + "℃"
         );
 
-        
+
+        if (position == 0) {
+            hourlyTime = "12 am";
+        } else if (position >0 && position < 12) {
+            hourlyTime = position + " am";
+        } else if (position == 12) {
+            hourlyTime = position + " pm";
+        } else if (position >=13 && position <= 23) {
+            hourlyTime = position - 12 + " pm";
+        }
+
+        holder.timeTextView.setText(hourlyTime);
 
     }
 
