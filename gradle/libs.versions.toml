@@ -1,5 +1,5 @@
 [versions]
-agp = "8.4.0"
+agp = "8.10.0"
 compiler = "1.1.1"
 extensions = "1.1.1"
 converterGson = "2.11.0"
